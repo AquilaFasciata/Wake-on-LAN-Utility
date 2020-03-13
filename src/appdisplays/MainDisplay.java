@@ -1,4 +1,5 @@
 package appdisplays;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ public class MainDisplay implements ActionListener {
     private JPanel panel;
     private JButton macAddresses;
     private JButton sendData;
+    private static MacDisplay macDisplay;
 
     public MainDisplay() {
         // TODO Add Output Console
@@ -37,8 +39,13 @@ public class MainDisplay implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if (macAddresses.getActionCommand().equals("macs")) {
-
+        if (actionEvent.getActionCommand().equals("macs")) {
+            System.out.println("Opening MAC Address Panel");
+            try {
+                macDisplay.setVisibility(true);
+            } catch (Exception e) {
+                macDisplay = new MacDisplay(true);
+            }
         }
     }
 }
