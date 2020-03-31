@@ -1,4 +1,4 @@
-package appdisplays;
+package com.zach.batchwol;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,9 +8,7 @@ import java.util.ArrayList;
 public class MacDisplay implements ActionListener {
 
     private JFrame macFrame;
-    private JPanel macPanel;
     private JTextArea macs;
-    private JButton addMacs;
     private static ArrayList<String> addresses = new ArrayList<String>();
     private static ArrayList<String> ipList = new ArrayList<String>();
 
@@ -18,8 +16,8 @@ public class MacDisplay implements ActionListener {
      * @param visible - Sets MAC Box visibility on creation
      */
     public MacDisplay(boolean visible) {
-        macFrame = new JFrame();
-        macPanel = new JPanel();
+        macFrame = new JFrame("MAC Address Configuration");
+        JPanel macPanel = new JPanel();
 
         macFrame.setSize(300, 200);
         macFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -28,12 +26,12 @@ public class MacDisplay implements ActionListener {
 
         macPanel.setLayout(null);
 
-        macs = new JTextArea("Insert MAC Addresses and IP Addresses here. eg:\nA8-6D-AA-E8-70-69/10.65.156.101" +
-                "\n(mac address/ip address)");
+        macs = new JTextArea("Insert MAC Addresses here, seperated by a \nnew line. eg:\nA8-6D-AA-E8-70-69" +
+                "\n(mac address\nmac address)");
         macs.setBounds(10, 10, 265, 100);
         macPanel.add(macs);
 
-        addMacs = new JButton("Save Addresses");
+        JButton addMacs = new JButton("Save Addresses");
         addMacs.setBounds(80, 115, 130, 25);
         macPanel.add(addMacs);
         addMacs.setActionCommand("save");
@@ -46,8 +44,17 @@ public class MacDisplay implements ActionListener {
         return macFrame.isVisible();
     }
 
+    /**
+     * @param visibility - Boolean representing visibility of window
+     *                   true - Makes Window Visible
+     *                   false - Hides window
+     */
     public void setVisibility(boolean visibility) {
         macFrame.setVisible(visibility);
+    }
+
+    public void toggleVisibility() {
+        setVisibility(!isVisible());
     }
 
     public MacDisplay() {
@@ -97,7 +104,7 @@ public class MacDisplay implements ActionListener {
 
             System.out.println("");
 
-            for (String ad: ipList)
+            for (String ad : ipList)
                 System.out.print(ad + " ");
         }
     }
