@@ -13,7 +13,5 @@ public class MainApp {
         }
 
         MainDisplay display = new MainDisplay();
-
-
     }
 }

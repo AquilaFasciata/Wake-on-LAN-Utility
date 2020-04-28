@@ -3,10 +3,12 @@ package com.zach.batchwol;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainDisplay implements ActionListener {
 
     private static MacDisplay macDisplay;
+    private static ArrayList<String> macList;
 
     public MainDisplay() {
         // TODO Add Output Console

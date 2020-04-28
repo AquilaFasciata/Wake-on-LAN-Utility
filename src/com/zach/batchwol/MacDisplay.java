@@ -3,14 +3,14 @@ package com.zach.batchwol;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MacDisplay implements ActionListener {
+public class MacDisplay implements ActionListener, Serializable {
 
     private JFrame macFrame;
     private JTextArea macs;
     private static ArrayList<String> addresses = new ArrayList<String>();
-    private static ArrayList<String> ipList = new ArrayList<String>();
 
     /**
      * @param visible - Sets MAC Box visibility on creation
@@ -26,8 +26,9 @@ public class MacDisplay implements ActionListener {
 
         macPanel.setLayout(null);
 
-        macs = new JTextArea("Insert MAC Addresses here, seperated by a \nnew line. eg:\nA8-6D-AA-E8-70-69" +
-                "\n(mac address\nmac address)");
+        macs = new JTextArea("Insert MAC Addresses here, seperated by a \nnew line eg:\n" +
+                "A8-6D-AA-E8-70-69\n" +
+                "00:FF:43:07:5B:B5");
         macs.setBounds(10, 10, 265, 100);
         macPanel.add(macs);
 
@@ -65,10 +66,6 @@ public class MacDisplay implements ActionListener {
         return addresses;
     }
 
-    public static ArrayList<String> getIpList() {
-        return ipList;
-    }
-
     public static void main(String[] args) {
         MacDisplay display = new MacDisplay();
     }
@@ -78,34 +75,14 @@ public class MacDisplay implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getActionCommand().equals("save")) {
             addresses.clear();
-            ipList.clear();
-            String tempAddress = macs.getText();
-            String tempIP = "";
-            ArrayList<String> couplets = new ArrayList<String>();
-            tempAddress = tempAddress.trim();
-            int recentIndex = 0;
-            for (int i = 1; i < tempAddress.length(); i++)
-                if (tempAddress.substring(i - 1, i).equals("\n")) {
-                    couplets.add(tempAddress.substring(recentIndex, i).trim());
-                    recentIndex = i;
+            String tempList = macs.getText();
+            int lastIndex = 0;
+            for (int i = 0; i < tempList.length(); i++) {
+                if (tempList.charAt(i) == '\n') {
+                    addresses.add(tempList.substring(lastIndex, i));
+                    lastIndex = i + 1;
                 }
-
-            couplets.add(tempAddress.substring(recentIndex, tempAddress.length()));
-
-
-            for (String couple : couplets) {
-                int endIndex = couple.indexOf('/');
-                addresses.add(couple.substring(0, endIndex));
-                ipList.add(couple.substring(endIndex + 1, couple.length()));
             }
-
-            for (String ad : addresses)
-                System.out.print(ad + " ");
-
-            System.out.println("");
-
-            for (String ad : ipList)
-                System.out.print(ad + " ");
         }
     }
 }
