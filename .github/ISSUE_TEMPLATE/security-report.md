@@ -2,7 +2,7 @@
 name: Security Report
 about: Reporting security vulnerabilities and/or exploits
 title: "[Security]"
-labels: bug, Security Issue
+labels: Security Issue, bug
 assignees: AquilaFasciata
 
 ---
