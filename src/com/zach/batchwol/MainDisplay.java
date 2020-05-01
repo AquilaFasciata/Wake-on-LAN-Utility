@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MainDisplay implements ActionListener {
 
-    private static MacDisplay macDisplay;
+    private static MacDisplay macDisplay = new MacDisplay(false);
     private static ArrayList<String> macList;
 
     public MainDisplay() {
@@ -39,6 +39,9 @@ public class MainDisplay implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-
+        switch (actionEvent.getActionCommand()) {
+            case "macs":
+                macDisplay.setVisibility(true);
+        }
     }
 }

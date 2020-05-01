@@ -2,8 +2,6 @@ package com.zach.batchwol;
 
 import javax.swing.*;
 
-// TODO Java Write File
-
 public class MainApp {
     public static void main(String[] args) {
         try {

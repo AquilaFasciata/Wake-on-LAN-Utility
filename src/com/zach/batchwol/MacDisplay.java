@@ -1,6 +1,7 @@
 package com.zach.batchwol;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ public class MacDisplay implements ActionListener, Serializable {
 
     private JFrame macFrame;
     private JTextArea macs;
+    private String tempList;
     private static ArrayList<String> addresses = new ArrayList<String>();
 
     /**
@@ -26,9 +28,8 @@ public class MacDisplay implements ActionListener, Serializable {
 
         macPanel.setLayout(null);
 
-        macs = new JTextArea("Insert MAC Addresses here, seperated by a \nnew line eg:\n" +
-                "A8-6D-AA-E8-70-69\n" +
-                "00:FF:43:07:5B:B5");
+        macs = new JTextArea();
+        loadField();
         macs.setBounds(10, 10, 265, 100);
         macPanel.add(macs);
 
@@ -51,10 +52,13 @@ public class MacDisplay implements ActionListener, Serializable {
      *                   false - Hides window
      */
     public void setVisibility(boolean visibility) {
+        loadField();
         macFrame.setVisible(visibility);
     }
 
     public void toggleVisibility() {
+        if (isVisible() == false)
+            loadField();
         setVisibility(!isVisible());
     }
 
@@ -66,6 +70,16 @@ public class MacDisplay implements ActionListener, Serializable {
         return addresses;
     }
 
+    private void loadField() {
+        try {
+            tempList = (String) DataManager.load("mac.list");
+        } catch (Exception e) {
+            System.out.println("File doesn't exist");
+        }
+
+        macs.setText(tempList);
+    }
+
     public static void main(String[] args) {
         MacDisplay display = new MacDisplay();
     }
@@ -75,7 +89,8 @@ public class MacDisplay implements ActionListener, Serializable {
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getActionCommand().equals("save")) {
             addresses.clear();
-            String tempList = macs.getText();
+            tempList = macs.getText();
+            DataManager.save(tempList, "mac.list");
             int lastIndex = 0;
             for (int i = 0; i < tempList.length(); i++) {
                 if (tempList.charAt(i) == '\n') {
@@ -83,6 +98,7 @@ public class MacDisplay implements ActionListener, Serializable {
                     lastIndex = i + 1;
                 }
             }
+            this.toggleVisibility();
         }
     }
 }
