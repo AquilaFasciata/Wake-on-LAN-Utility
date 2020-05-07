@@ -50,8 +50,7 @@ public class PacketSender {
         }
 
         System.out.println("Mac: ");
-        for (byte data : result)
-            System.out.print(data);
+        System.out.println(address);
         return result;
     }
 
