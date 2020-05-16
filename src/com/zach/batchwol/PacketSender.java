@@ -11,7 +11,6 @@ public class PacketSender {
     private static final int DEFAULT_PORT = 9;
 
     public static void PacketSender(String macAddress) {
-
         byte[] theMagic = new byte[102];
         byte[] newMacs = MacToBytes(macAddress);
 
@@ -49,7 +48,7 @@ public class PacketSender {
             }
         }
 
-        System.out.println("Mac: ");
+        System.out.println("Sending a Magic Packet for this MAC: ");
         System.out.println(address);
         return result;
     }

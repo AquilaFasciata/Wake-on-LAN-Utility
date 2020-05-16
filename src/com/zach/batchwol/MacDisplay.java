@@ -1,7 +1,6 @@
 package com.zach.batchwol;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -71,10 +70,16 @@ public class MacDisplay implements ActionListener, Serializable {
     }
 
     private void loadField() {
+//        Try/Catch used to load file, or load default text if list not found
         try {
             tempList = (String) DataManager.load("mac.list");
         } catch (Exception e) {
             System.out.println("File doesn't exist");
+            tempList = "Insert MAC Addresses here,\nseparated by a new line eg:\n" +
+                    "A8-6D-AA-E8-70-69\n" +
+                    "00:FF:43:07:5B:B5";
+            macs.setText(tempList);
+            return;
         }
 
         macs.setText(tempList);
@@ -89,14 +94,20 @@ public class MacDisplay implements ActionListener, Serializable {
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getActionCommand().equals("save")) {
             addresses.clear();
-            tempList = macs.getText();
+            tempList = macs.getText().trim();
             DataManager.save(tempList, "mac.list");
-            int lastIndex = 0;
-            for (int i = 0; i < tempList.length(); i++) {
-                if (tempList.charAt(i) == '\n') {
-                    addresses.add(tempList.substring(lastIndex, i));
-                    lastIndex = i + 1;
+            // If only one MAC is detected, that will be added straight to the Array
+            if (tempList.length() > 17) {
+                int lastIndex = 0;
+                for (int i = 0; i < tempList.length(); i++) {
+                    if (tempList.charAt(i) == '\n') {
+                        addresses.add(tempList.substring(lastIndex, i));
+                        lastIndex = i + 1;
+                    }
                 }
+                addresses.add(tempList.substring(lastIndex));
+            } else {
+                addresses.add(tempList);
             }
             this.toggleVisibility();
         }

@@ -3,12 +3,18 @@ package com.zach.batchwol;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class MainDisplay implements ActionListener {
 
     private static MacDisplay macDisplay = new MacDisplay(false);
     private static ArrayList<String> macList;
+    private JTextArea output;
+
+    public JTextArea getOutput() {
+        return output;
+    }
 
     public MainDisplay() {
         // TODO Add Output Console
@@ -34,6 +40,16 @@ public class MainDisplay implements ActionListener {
         sendData.setActionCommand("wake");
         sendData.addActionListener(this);
 
+        output = new JTextArea();
+        output.setBounds(10, 50, 465, 100);
+        output.setLineWrap(true);
+        output.setWrapStyleWord(true);
+        output.setEditable(false);
+        panel.add(output);
+
+        PrintStream ps = System.out;
+
+
         frame.setVisible(true);
     }
 
@@ -42,6 +58,13 @@ public class MainDisplay implements ActionListener {
         switch (actionEvent.getActionCommand()) {
             case "macs":
                 macDisplay.setVisibility(true);
+                break;
+            case "wake":
+                macList = macDisplay.getAddresses();
+                for (String address: macList)
+                    PacketSender.PacketSender(address);
+                System.out.println("Magic Packets have been sent.");
+                break;
         }
     }
 }
