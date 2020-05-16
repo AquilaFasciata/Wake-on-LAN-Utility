@@ -2,6 +2,11 @@ package com.zach.batchwol;
 
 import javax.swing.*;
 
+/**
+ * @author AquilaFasciata
+ * @version 0.1
+ */
+
 public class MainApp {
     public static void main(String[] args) {
         try {
