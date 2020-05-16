@@ -3,6 +3,7 @@ package com.zach.batchwol;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -93,23 +94,27 @@ public class MacDisplay implements ActionListener, Serializable {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getActionCommand().equals("save")) {
-            addresses.clear();
-            tempList = macs.getText().trim();
-            DataManager.save(tempList, "mac.list");
-            // If only one MAC is detected, that will be added straight to the Array
-            if (tempList.length() > 17) {
-                int lastIndex = 0;
-                for (int i = 0; i < tempList.length(); i++) {
-                    if (tempList.charAt(i) == '\n') {
-                        addresses.add(tempList.substring(lastIndex, i));
-                        lastIndex = i + 1;
-                    }
-                }
-                addresses.add(tempList.substring(lastIndex));
-            } else {
-                addresses.add(tempList);
-            }
+            sortAddresses();
             this.toggleVisibility();
+        }
+    }
+
+    public void sortAddresses() {
+        addresses.clear();
+        tempList = macs.getText().trim();
+        DataManager.save(tempList, "mac.list");
+        // If only one MAC is detected, that will be added straight to the Array
+        if (tempList.length() > 17) {
+            int lastIndex = 0;
+            for (int i = 0; i < tempList.length(); i++) {
+                if (tempList.charAt(i) == '\n') {
+                    addresses.add(tempList.substring(lastIndex, i));
+                    lastIndex = i + 1;
+                }
+            }
+            addresses.add(tempList.substring(lastIndex));
+        } else {
+            addresses.add(tempList);
         }
     }
 }

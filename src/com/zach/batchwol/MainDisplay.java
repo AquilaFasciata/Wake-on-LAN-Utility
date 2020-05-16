@@ -1,6 +1,8 @@
 package com.zach.batchwol;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
@@ -10,9 +12,9 @@ public class MainDisplay implements ActionListener {
 
     private static MacDisplay macDisplay = new MacDisplay(false);
     private static ArrayList<String> macList;
-    private JTextArea output;
+    private static JTextArea output;
 
-    public JTextArea getOutput() {
+    public static JTextArea getOutput() {
         return output;
     }
 
@@ -20,6 +22,7 @@ public class MainDisplay implements ActionListener {
         // TODO Add Output Console
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
+        Rectangle outputBounds = new Rectangle(10, 50, 465, 100);
 
         frame.setSize(500, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,14 +44,23 @@ public class MainDisplay implements ActionListener {
         sendData.addActionListener(this);
 
         output = new JTextArea();
-        output.setBounds(10, 50, 465, 100);
+        output.setBounds(outputBounds);
         output.setLineWrap(true);
         output.setWrapStyleWord(true);
         output.setEditable(false);
         panel.add(output);
 
-        PrintStream ps = System.out;
+        JScrollPane scrollPane = new JScrollPane(output);
+        scrollPane.setBounds(outputBounds);
+        panel.add(scrollPane);
 
+        // Used to redirect stdout to output text area
+        MessageConsole mc = new MessageConsole(output);
+        mc.redirectOut();
+        mc.redirectErr(Color.RED, null);
+        mc.setMessageLines(1000);
+
+        macDisplay.sortAddresses();
 
         frame.setVisible(true);
     }

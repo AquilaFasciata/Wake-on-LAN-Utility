@@ -1,5 +1,8 @@
 package com.zach.batchwol;
 
+import com.sun.tools.javac.Main;
+
+import java.awt.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -11,6 +14,12 @@ public class PacketSender {
     private static final int DEFAULT_PORT = 9;
 
     public static void PacketSender(String macAddress) {
+        // Used to redirect stdout to output text area
+        MessageConsole mc = new MessageConsole(MainDisplay.getOutput());
+        mc.redirectOut();
+        mc.redirectErr(Color.RED, null);
+        mc.setMessageLines(1000);
+
         byte[] theMagic = new byte[102];
         byte[] newMacs = MacToBytes(macAddress);
 
