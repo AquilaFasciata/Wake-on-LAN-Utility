@@ -1,11 +1,9 @@
 package com.zach.batchwol;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class MainDisplay implements ActionListener {

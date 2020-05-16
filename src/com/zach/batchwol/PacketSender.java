@@ -1,7 +1,5 @@
 package com.zach.batchwol;
 
-import com.sun.tools.javac.Main;
-
 import java.awt.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
